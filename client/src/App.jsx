@@ -1,12 +1,22 @@
 import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Home from './pages/Home';
+import Profile from './pages/Profile';
+import About from './pages/About';
+import Signin from './pages/Signin';
+import Signup from './pages/Signup';
 
 function App() {
   return (
-    <>
-      <h1 className="text-3xl font-bold underline bg-slate-700 text-white mt-4 tracking-wider text-center mx-auto">
-        Hello world!
-      </h1>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/Signin" element={<Signin />} />
+        <Route path="/Signup" element={<Signup />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
