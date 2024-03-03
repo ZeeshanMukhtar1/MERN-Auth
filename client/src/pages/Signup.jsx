@@ -29,6 +29,7 @@ function Signup() {
             type="text"
             placeholder="Username"
             id="username"
+            autoComplete="username"
             value={formData.username}
             onChange={handleChange}
           />
@@ -45,6 +46,7 @@ function Signup() {
             type="password"
             placeholder="Password"
             id="password"
+            autoComplete="current-password"
             value={formData.password}
             onChange={handleChange}
           />
