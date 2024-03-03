@@ -3,10 +3,6 @@ import bcryptjs from 'bcryptjs';
 
 export const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
-  // after getting the password from user simply hash it using bcryptjs
-  // 1st simple approch
-  // const hashedPassword = await bcryptjs.hash(password, 10);
-  // 2nd asysnc approch
   const hashedPassword = bcryptjs.hashSync(password, 10);
   const newUser = new User({ username, email, password: hashedPassword });
   try {
@@ -14,7 +10,5 @@ export const signup = async (req, res, next) => {
     res.status(201).json({ message: 'User created successfully' });
   } catch (error) {
     next(error);
-    // in case we wanna show the custom error which is not defined in server yet
-    // res.status(500).json(error.message);
   }
 };
