@@ -9,7 +9,7 @@ mongoose
   .connect(process.env.MONGO_DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    dbName: 'MERNAUTH', 
+    dbName: 'MERNAUTH',
   })
   .then(() => {
     console.log('Connected to MongoDB');
@@ -29,3 +29,13 @@ app.listen(PORT, () => {
 
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
+
+app.use((err, req, res, next) => {
+  const stuatusCode = err.statusCode || 500;
+  const message = err.message || 'Internal server error';
+  return res.status(stuatusCode).json({
+    success: false,
+    message,
+    stuatusCode,
+  });
+});
