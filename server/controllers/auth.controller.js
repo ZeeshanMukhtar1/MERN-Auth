@@ -36,6 +36,7 @@ export const signin = async (req, res, next) => {
       })
       .status(200)
       .json({ ...rest, token });
+    // we can see the token and the expires time in the browser network tab in headers section , and can see the cookie in application tab in cookies section, after refresh we still can access the cookie means later we can use it to verify the user
   } catch (error) {
     next(error);
   }
