@@ -1,11 +1,17 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from '../redux/user/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Signin() {
   const [formData, setFormData] = useState({});
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const { loading, error } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
@@ -13,8 +19,7 @@ export default function Signin() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true);
-      setError(false);
+      dispatch(signInStart());
       const res = await fetch('/api/auth/Signin', {
         method: 'POST',
         headers: {
@@ -23,19 +28,18 @@ export default function Signin() {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      console.log(data);
-      setLoading(false);
       if (data.success === false) {
-        setError(true);
+        dispatch(signInFailure(data));
         return;
       }
-      // after succefull login we wanna redirect to home page, same with signup as well
+      dispatch(signInSuccess(data));
+      // after successful login, redirect to home page
       navigate('/');
     } catch (error) {
-      setLoading(false);
-      setError(true);
+      dispatch(signInFailure(error));
     }
   };
+
   return (
     <div className="max-w-lg p-3 mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Sign In </h1>
@@ -67,7 +71,9 @@ export default function Signin() {
           <span className="text-blue-500">Sign In</span>
         </Link>
       </div>
-      <p className="mt-5 text-red-700">{error && 'Something went wrong!'}</p>
+      <p className="mt-5 text-red-700">
+        {error ? error.message || 'something went wrong' : ''}
+      </p>
     </div>
   );
 }
