@@ -7,6 +7,7 @@ export default function SignUp() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
@@ -24,59 +25,61 @@ export default function SignUp() {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      console.log(data);
       setLoading(false);
       if (data.success === false) {
         setError(true);
         return;
       }
-      // after succefull login we wanna redirect to home page, same with signin as well
+      // after successful login, redirect to home page
       navigate('/');
     } catch (error) {
       setLoading(false);
       setError(true);
     }
   };
+
   return (
-    <div className="max-w-lg p-3 mx-auto">
-      <h1 className="text-3xl font-semibold text-center my-7">Sign Up</h1>
+    <div className="max-w-lg p-8 mx-auto mt-12 bg-white border rounded-lg shadow-md">
+      <h1 className="text-3xl font-semibold text-center mb-7">Sign Up</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="text"
           placeholder="Username"
           id="username"
-          className="p-3 rounded-lg bg-slate-100"
+          className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-slate-700"
           onChange={handleChange}
         />
         <input
           type="email"
           placeholder="Email"
           id="email"
-          className="p-3 rounded-lg bg-slate-100"
+          className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-slate-700"
           onChange={handleChange}
         />
         <input
           type="password"
           placeholder="Password"
           id="password"
-          className="p-3 rounded-lg bg-slate-100"
+          className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-slate-700"
           onChange={handleChange}
         />
         <button
           disabled={loading}
-          className="p-3 text-white uppercase rounded-lg bg-slate-700 hover:opacity-95 disabled:opacity-80"
+          className="p-3 text-white uppercase rounded-lg bg-slate-700 hover:bg-slate-800 disabled:opacity-80 focus:outline-none"
         >
           {loading ? 'Loading...' : 'Sign Up'}
         </button>
         <OAuth />
       </form>
-      <div className="flex gap-2 mt-5">
-        <p>Have an account?</p>
-        <Link to="/signin">
-          <span className="text-blue-500">Sign in</span>
+      <div className="flex items-center justify-center mt-5">
+        <p className="text-gray-600">Already have an account?</p>
+        <Link to="/signin" className="ml-2 text-blue-500">
+          Sign In
         </Link>
       </div>
-      <p className="mt-5 text-red-700">{error && 'Something went wrong!'}</p>
+      <p className="mt-5 text-center text-red-700">
+        {error && 'Something went wrong!'}
+      </p>
     </div>
   );
 }

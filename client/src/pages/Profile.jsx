@@ -28,16 +28,19 @@ export default function Profile() {
   const [updateSuccess, setUpdateSuccess] = useState(false);
 
   const { currentUser, loading, error } = useSelector((state) => state.user);
+
   useEffect(() => {
     if (image) {
       handleFileUpload(image);
     }
   }, [image]);
+
   const handleFileUpload = async (image) => {
     const storage = getStorage(app);
     const fileName = new Date().getTime() + image.name;
     const storageRef = ref(storage, fileName);
     const uploadTask = uploadBytesResumable(storageRef, image);
+
     uploadTask.on(
       'state_changed',
       (snapshot) => {
@@ -55,6 +58,7 @@ export default function Profile() {
       }
     );
   };
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
@@ -99,7 +103,7 @@ export default function Profile() {
     }
   };
 
-  const handlesignout = async () => {
+  const handleSignout = async () => {
     try {
       const res = await fetch('/api/auth/signout');
       dispatch(signout());
@@ -107,9 +111,10 @@ export default function Profile() {
       console.log(error);
     }
   };
+
   return (
-    <div className="max-w-lg p-3 mx-auto">
-      <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
+    <div className="max-w-lg p-8 mx-auto mt-12 bg-white border rounded-lg shadow-md">
+      <h1 className="text-3xl font-semibold text-center mb-7">Your Profile</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="file"
@@ -118,16 +123,10 @@ export default function Profile() {
           accept="image/*"
           onChange={(e) => setImage(e.target.files[0])}
         />
-        {/* 
-      firebase storage rules:  
-      allow read;
-      allow write: if
-      request.resource.size < 2 * 1024 * 1024 &&
-      request.resource.contentType.matches('image/.*') */}
         <img
           src={formData.profilePicture || currentUser.profilePicture}
           alt="profile"
-          className="self-center object-cover w-24 h-24 mt-2 rounded-full cursor-pointer"
+          className="self-center object-cover w-24 h-24 mt-2 border border-gray-300 rounded-full cursor-pointer hover:border-slate-700"
           onClick={() => fileRef.current.click()}
         />
         <p className="self-center text-sm">
@@ -148,7 +147,7 @@ export default function Profile() {
           type="text"
           id="username"
           placeholder="Username"
-          className="p-3 rounded-lg bg-slate-100"
+          className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-slate-700"
           onChange={handleChange}
         />
         <input
@@ -156,28 +155,34 @@ export default function Profile() {
           type="email"
           id="email"
           placeholder="Email"
-          className="p-3 rounded-lg bg-slate-100"
+          className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-slate-700"
           onChange={handleChange}
         />
         <input
           type="password"
           id="password"
           placeholder="Password"
-          className="p-3 rounded-lg bg-slate-100"
+          className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-slate-700"
           onChange={handleChange}
         />
-        <button className="p-3 text-white uppercase rounded-lg bg-slate-700 hover:opacity-95 disabled:opacity-80">
+        <button
+          className="p-3 text-white uppercase rounded-lg bg-slate-700 hover:bg-slate-800 disabled:opacity-80 focus:outline-none"
+          disabled={loading}
+        >
           {loading ? 'Loading...' : 'Update'}
         </button>
       </form>
       <div className="flex justify-between mt-5">
         <span
           onClick={handleDeleteAccount}
-          className="text-red-700 cursor-pointer"
+          className="text-red-700 cursor-pointer hover:underline"
         >
           Delete Account
         </span>
-        <span onClick={handlesignout} className="text-red-700 cursor-pointer">
+        <span
+          onClick={handleSignout}
+          className="text-red-700 cursor-pointer hover:underline"
+        >
           Sign out
         </span>
       </div>

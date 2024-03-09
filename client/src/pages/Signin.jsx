@@ -13,6 +13,7 @@ export default function Signin() {
   const { loading, error } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
@@ -42,39 +43,39 @@ export default function Signin() {
   };
 
   return (
-    <div className="max-w-lg p-3 mx-auto">
-      <h1 className="text-3xl font-semibold text-center my-7">Sign In </h1>
+    <div className="max-w-lg p-8 mx-auto mt-12 border rounded-lg shadow-md bordbg-white">
+      <h1 className="text-3xl font-semibold text-center mb-7">Sign In</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="email"
           placeholder="Email"
           id="email"
-          className="p-3 rounded-lg bg-slate-100"
+          className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-slate-700"
           onChange={handleChange}
         />
         <input
           type="password"
           placeholder="Password"
           id="password"
-          className="p-3 rounded-lg bg-slate-100"
+          className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-slate-700"
           onChange={handleChange}
         />
         <button
           disabled={loading}
-          className="p-3 text-white uppercase rounded-lg bg-slate-700 hover:opacity-95 disabled:opacity-80"
+          className="p-3 text-white uppercase rounded-lg bg-slate-700 hover:bg-slate-800 disabled:opacity-80 focus:outline-none"
         >
           {loading ? 'Loading...' : 'Sign In'}
         </button>
         <OAuth />
       </form>
-      <div className="flex gap-2 mt-5">
-        <p>Dont Have an account?</p>
-        <Link to="/signup">
-          <span className="text-blue-500">Sign In</span>
+      <div className="flex items-center justify-center mt-5">
+        <p className="text-gray-600">Don't have an account?</p>
+        <Link to="/signup" className="ml-2 text-blue-500">
+          Sign Up
         </Link>
       </div>
-      <p className="mt-5 text-red-700">
-        {error ? error.message || 'something went wrong' : ''}
+      <p className="mt-5 text-center text-red-700">
+        {error ? error.message || 'Something went wrong' : ''}
       </p>
     </div>
   );
