@@ -1,5 +1,7 @@
 import { useSelector } from 'react-redux';
 import { useRef, useState, useEffect } from 'react';
+import { Toaster, toast } from 'sonner';
+
 import {
   getDownloadURL,
   getStorage,
@@ -81,6 +83,7 @@ export default function Profile() {
       }
       dispatch(updateUserSuccess(data));
       setUpdateSuccess(true);
+      toast.success('User is updated successfully');
     } catch (error) {
       dispatch(updateUserFailure(error));
     }
@@ -190,6 +193,7 @@ export default function Profile() {
       <p className="mt-5 text-green-700">
         {updateSuccess && 'User is updated successfully!'}
       </p>
+      <Toaster position="bottom-right" />
     </div>
   );
 }
