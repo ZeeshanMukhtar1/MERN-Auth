@@ -6,7 +6,7 @@ function Header() {
   const { currentUser } = useSelector((state) => state.user);
 
   return (
-    <div className="bg-[#2c3e50] ">
+    <div className="bg-[#2c3e50]">
       <div className="flex items-center justify-between max-w-6xl py-4 mx-auto">
         <Link to="/">
           <h1 className="text-2xl font-bold text-white">Auth App</h1>

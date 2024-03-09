@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Toaster, toast } from 'sonner';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   signInStart,
@@ -20,6 +21,17 @@ export default function Signin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!formData.email || !formData.password) {
+      dispatch(
+        signInFailure({
+          message: 'Please fill in all the fields',
+        })
+      );
+      toast.error('Please fill in all the fields');
+      return;
+    }
+
     try {
       dispatch(signInStart());
       const res = await fetch('/api/auth/Signin', {
@@ -77,6 +89,7 @@ export default function Signin() {
       <p className="mt-5 text-center text-red-700">
         {error ? error.message || 'Something went wrong' : ''}
       </p>
+      <Toaster position="bottom-right" />
     </div>
   );
 }

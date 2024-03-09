@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import OAuth from '../components/OAuth';
+import { Toaster, toast } from 'sonner';
 
 export default function SignUp() {
   const [formData, setFormData] = useState({});
@@ -14,6 +15,12 @@ export default function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.username || !formData.email || !formData.password) {
+      setError(true);
+      toast.error('Please fill in all the fields');
+      return;
+    }
+
     try {
       setLoading(true);
       setError(false);
@@ -39,7 +46,7 @@ export default function SignUp() {
   };
 
   return (
-    <div className="max-w-lg p-8 mx-auto mt-12 bg-white border rounded-lg shadow-md">
+    <div className="max-w-lg p-8 mx-auto mt-12 bg-white border rounded-lg shadow-md ">
       <h1 className="text-3xl font-semibold text-center mb-7">Sign Up</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
@@ -80,6 +87,7 @@ export default function SignUp() {
       <p className="mt-5 text-center text-red-700">
         {error && 'Something went wrong!'}
       </p>
+      <Toaster position="bottom-right" />
     </div>
   );
 }
