@@ -18,9 +18,11 @@ function Header() {
             </Link>
           </li>
           <li>
-            <Link to="/signup" className="text-white hover:text-gray-300">
-              Signup
-            </Link>
+            {!currentUser && (
+              <Link to="/signup" className="text-white hover:text-gray-300">
+                Signup
+              </Link>
+            )}
           </li>
           <li>
             <Link
