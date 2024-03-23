@@ -3,10 +3,23 @@ import bcryptjs from 'bcryptjs';
 import { errorHandler } from '../utils/error.js';
 import jwt from 'jsonwebtoken';
 
+// Function to generate placeholder image URL based on the first character of the username
+const generatePlaceholderImage = (username) => {
+  const initial = username.charAt(0).toLowerCase();
+  return `https://ui-avatars.com/api/?name=${initial}&size=200`;
+};
+
 export const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
   const hashedPassword = bcryptjs.hashSync(password, 10);
-  const newUser = new User({ username, email, password: hashedPassword });
+  // Generate profile picture URL based on username
+  const profilePicture = generatePlaceholderImage(username);
+  const newUser = new User({
+    username,
+    email,
+    password: hashedPassword,
+    profilePicture,
+  });
   try {
     await newUser.save();
     res.status(201).json({ message: 'User created successfully' });
@@ -61,13 +74,15 @@ export const google = async (req, res, next) => {
         Math.random().toString(36).slice(-8) +
         Math.random().toString(36).slice(-8);
       const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
+      // Generate profile picture URL based on username
+      const profilePicture = generatePlaceholderImage(req.body.name);
       const newUser = new User({
         username:
           req.body.name.split(' ').join('').toLowerCase() +
           Math.random().toString(36).slice(-8),
         email: req.body.email,
         password: hashedPassword,
-        profilePicture: req.body.photo,
+        profilePicture: req.body.photo || profilePicture, //// Use photo from Google response if available, otherwise generate placeholder image URL
       });
       await newUser.save();
       const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);

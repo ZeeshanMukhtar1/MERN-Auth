@@ -35,9 +35,12 @@ export default function SignUp() {
       setLoading(false);
       if (data.success === false) {
         setError(true);
+        toast.error('Account already exists with this email or username');
+        console.log(data.message);
         return;
       }
       // after successful login, redirect to home page
+      toast.success('Account created successfully, please sign in');
       navigate('/');
     } catch (error) {
       setLoading(false);
