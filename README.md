@@ -6,8 +6,43 @@ This MERN (MongoDB, Express.js, React.js, Node.js) stack authentication app serv
 
 ## Getting Started
 
-Create a `.env` in `server` and `client` and add required environment variables.
-`.env.sample` file in both `server` and `client` can be used as a reference.
+To get started with this project, follow these steps:
+
+1. Clone this repository to your local machine.
+
+   ```bash
+   git clone https://github.com/ZeeshanMukhtar1/MERN-Auth.git
+   ```
+
+2. Navigate to the project directory.
+
+   ```bash
+   cd MERN-Auth
+   ```
+
+3. Create a `.env` file in both the `client` and `server` directories based on the provided `.env.sample` files.
+
+4. Setup a Firebase app and obtain necessary credentials. If you are not familiar with Firebase, please refer to its basic usage documentation.
+
+5. In both the `client` and `server` directories, install dependencies using npm.
+
+   ```bash
+   npm install
+   ```
+
+6. Run the app by simultaneously running `npm run dev` in both the `client` and `server` folders in separate terminal windows.
+
+   ```bash
+   # Terminal 1 (server)
+   cd server
+   npm run dev
+
+   # Terminal 2 (client)
+   cd ../client
+   npm run dev
+   ```
+
+Now you should have the app up and running locally!
 
 ## Features
 
